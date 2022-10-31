@@ -20,6 +20,13 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Tomato collection Api" });
+});
+
+// Import du fichier user.js
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
 
 
 app.all("*", (req, res) => {
