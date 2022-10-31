@@ -1,26 +1,24 @@
 const User = require("../models/User");
 
+
 const isAuthenticated = async (req, res, next) => {
 
-  try {
     if (req.headers.authorization) {
+      
+    const token = req.headers.authorization.replace("Bearer ", "");
 
-      const token = req.headers.authorization.replace("Bearer ", "");
-
-      const user = await User.findOne({ token });
-
-      if (user) {
-        req.user = user;
+    const userWithToken = await User.findOne({ token: token }).select("account _id");
+    
+    if (userWithToken) {
+        req.user = userWithToken;
         next();
-      } else {
-        res.status(401).json({ message: "Unauthorized : user not found" });
+    } else {
+        res.status(401).json({ message: "Unauthorized" });
       }
     } else {
-      res.status(401).json({ message: "Unauthorized : no token" });
+      res.status(401).json({ message: "Unauthorized" });
     }
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
+  };
+  
 
-module.exports = isAuthenticated;
+  module.exports = isAuthenticated;
