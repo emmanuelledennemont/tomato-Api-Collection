@@ -14,7 +14,6 @@ router.post("/user/signup", async (req, res) => {
 
     const isAdmin = (await User.countDocuments({})) === 0;
     const role = isAdmin ? "admin" : "user";
-   const passwordlength = password === 6
 
     const userSameMail = await User.findOne({ email: email });
     const userSameUsername = await User.findOne({
