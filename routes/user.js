@@ -10,17 +10,18 @@ const User = require("../models/User");
 
 router.post("/user/signup", async (req, res) => {
   try {
-    const { username, email, password } = req.fields;
+    const { username, email, password, first_name, last_name } = req.fields;
 
     const isAdmin = (await User.countDocuments({})) === 0;
     const role = isAdmin ? "admin" : "user";
+   const passwordlength = password === 6
 
     const userSameMail = await User.findOne({ email: email });
     const userSameUsername = await User.findOne({
-      account: { username: username },
+      account: { username: username, firstname:first_name, lastname:last_name },
     });
 
-    if (username && password && email && role) {
+    if (username && password && email && role && first_name && last_name) {
       if (!userSameMail) {
         if (!userSameUsername) {
           const salt = uid2(16);
@@ -32,6 +33,8 @@ router.post("/user/signup", async (req, res) => {
             email: email,
             account: {
               username: username,
+              firstname:first_name,
+              lastname:last_name,
             },
             role: role,
             token: token,
@@ -45,6 +48,8 @@ router.post("/user/signup", async (req, res) => {
             token: token,
             account: {
               username: username,
+              firstname:first_name,
+              lastname:last_name,
             },
             role: role,
           });
