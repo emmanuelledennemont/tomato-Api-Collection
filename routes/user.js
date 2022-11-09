@@ -3,6 +3,7 @@ const express = require("express");
 const uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
+const cloudinary = require("cloudinary").v2;
 
 const router = express.Router();
 
@@ -24,7 +25,9 @@ async (req, res) => {
         username: username,
         firstname: first_name,
         lastname: last_name,
+        avatar: avatar,
       }
+
     });
     
     
@@ -35,7 +38,10 @@ async (req, res) => {
 
           const hash = SHA256(salt + password).toString(encBase64);
           const token = uid2(64);
-          
+          const avatar = await cloudinary.uploader.upload(picture, {
+            folder: "api/user/avatar",
+          });
+
 
           const newUser = await new User({
             email: email,
@@ -43,6 +49,7 @@ async (req, res) => {
               username: username,
               firstname: first_name,
               lastname: last_name,
+              avatar: avatar.secure_url,
             },
             role: role,
             token: token,

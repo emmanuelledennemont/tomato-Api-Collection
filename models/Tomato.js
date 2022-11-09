@@ -26,7 +26,6 @@ const Tomato = mongoose.model("Tomato", {
     required: [true, "Please provide product category"],
     enum: ["légumes", "fruits", "fleurs", "autre"],
   },
-
   colors: {
     type: [String],
     default: ["Rouge"],
@@ -70,7 +69,6 @@ const Tomato = mongoose.model("Tomato", {
     ],
     required: true,
   },
-
   forme: {
     type: [String],
     default: ["ovale"],
@@ -93,7 +91,6 @@ const Tomato = mongoose.model("Tomato", {
     type: String,
     enum: ["Hâtive", "Mi-Précoce", "Mi-Saison", "Précoce", "Tardive"],
   },
-
   climat: {
     type: String,
     enum: ["Chaud et Sec", "Frais", "Serre", "Tous"],
@@ -113,7 +110,6 @@ const Tomato = mongoose.model("Tomato", {
       "Tardive",
     ],
   },
-
   croissance: {
     type: String,
     enum: [
@@ -124,7 +120,6 @@ const Tomato = mongoose.model("Tomato", {
       "Semi-déterminée",
     ],
   },
-
   hauteur: {
     type: String,
   },
